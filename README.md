@@ -3,7 +3,7 @@ QRRegister
 
 ##Installation
 
-###To install the demo (on Ubuntu):
+###To install the app on Ubuntu:
 
 
 * install CouchDB via the command
