@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="registerModule">
 <head>
     <title>QR Register</title>
-</head>
-<body>
+    <script type="text/javascript" src="/qrregister/libs/angular.min.js"></script>
+    <script type="text/javascript" src="/qrregister/libs/angular.simplecouch.js"></script>
+    <script type="text/javascript" src="/qrregister/custom/registercontroller.js"></script>
+    </head>
+<body ng-controller="registerController">
+<input type="text" ng-model="variable"/>
+<span ng-model="variable">
+    {{ variable }}
+
+
+</span>
+
 Hi!
 I am currently working on this application. Stay tuned for the upcoming updates. :)
+<br /> <br />
+<input type="button" value="Save" ng-click="save()" />
 </body>
 </html>
