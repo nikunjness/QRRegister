@@ -1,20 +1,21 @@
 QRRegister
 ==========
 
-Installation
+##Installation
 
-To install the demo (on Ubuntu):
+###To install the demo (on Ubuntu):
 
-    install CouchDB via the command
 
-    sudo apt-get install CouchDB
+* install CouchDB via the command
 
-    open the web interface in your browser at http://localhost:5984/_utils
-    create a database, for example named "qrregister"
-    in this database, create a document with id with an easy to remember id, for example "app", and save it.
-    in the document with id "app", add the file "index.html" as attachment
+    ` sudo apt-get install CouchDB `
 
-    run the application in your browser via
+* open the web interface in your browser at http://localhost:5984/_utils
+* create a database, for example named "qrregister"
+* in this database, create a document with id with an easy to remember id, for example "app", and save it.
+* in the document with id "app", add the file "index.html" as attachment
 
-    http://localhost:5984/service/app/index.html
+* run the application in your browser via
+
+    ` http://localhost:5984/service/app/index.html `
 
