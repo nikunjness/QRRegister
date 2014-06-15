@@ -17,5 +17,5 @@ QRRegister
 
 * run the application in your browser via
 
-    ` http://localhost:5984/service/app/index.html `
+    ` http://localhost:5984/qrregister/app/index.html `
 
