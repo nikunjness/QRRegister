@@ -106,15 +106,17 @@ angular.module('SimpleCouch',[]).provider('couchConfig', {
         },
         // all doc manipulation
         doc: {
-            post: function (data, cb) {
+            post: function (data, cbsuccess, cberror) {
                 return $http({
                     method: "POST",
                     url: getDbUri(),
                     data: data,
                     headers: {'Content-Type': 'application/json'}
                 }).success(function (data, status) {
-                        cb(data);
-                    });
+                        cbsuccess(data, status);
+                    }).error(function (data, status) {
+                        cberror(data, status);
+                });
 
             },
             delete: function (doc, cb) {

@@ -5,18 +5,51 @@
     <script type="text/javascript" src="/qrregister/libs/angular.min.js"></script>
     <script type="text/javascript" src="/qrregister/libs/angular.simplecouch.js"></script>
     <script type="text/javascript" src="/qrregister/custom/registercontroller.js"></script>
+    <link type="text/css" href="/qrregister/libs/bootstrap.min.css" rel="stylesheet">
     </head>
 <body ng-controller="registerController">
-<input type="text" ng-model="variable"/>
-<span ng-model="variable">
-    {{ variable }}
+<div  align="center" class="row">
+    <img src="/qrregister/img/17800.jpg" height="150">
+</div>
+<div class="container">
+    <div class="well">
+        <div ng-show="errorWhileSubmit" class='alert alert-danger'>{{ errorWhileSubmit }}</div>
+        <div ng-show="successWhileSubmit" class='alert alert-success'>{{ successWhileSubmit }}</div>
+        <form class="form-horizontal" role="form" ng-submit="save()">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="Attendee.name" required placeholder="Name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Contact</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" ng-model="Attendee.contact" required placeholder="Contact">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="email" class="form-control" ng-model="Attendee.email" required placeholder="Email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Bio</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" ng-model="Attendee.bio" required placeholder="Tell us something about yourself"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Register</button>
+                </div>
+            </div>
+        </form>
 
 
-</span>
+    </div>
+</div>
 
-Hi!
-I am currently working on this application. Stay tuned for the upcoming updates. :)
-<br /> <br />
-<input type="button" value="Save" ng-click="save()" />
 </body>
 </html>
