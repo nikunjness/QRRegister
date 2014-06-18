@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="registerModule">
+<head>
+    <title>QR Register</title>
+    <script type="text/javascript" src="/qrregister/libs/angular.min.js"></script>
+    <script type="text/javascript" src="/qrregister/libs/angular.simplecouch.js"></script>
+    <script type="text/javascript" src="/qrregister/custom/registercontroller.js"></script>
+    <link type="text/css" href="/qrregister/libs/bootstrap.min.css" rel="stylesheet">
+</head>
+<body ng-controller="registerController" ng-init="getalldocs()">
+<div  align="center" class="row">
+    <img src="/qrregister/img/17800.jpg" height="150">
+</div>
+<div class="container">
+    <div class="well">
+<table class="table table-condensed table-hover" ng-show="all_docs">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Linkedin</th>
+        <th>isPresent</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="candidate in all_docs.rows">
+        <td>{{ candidate.value.name }}</td>
+        <td>{{ candidate.value.email }}</td>
+        <td>{{ candidate.value.contact }}</td>
+        <td> <a href="{{ candidate.value.linkedin }}" target="_blank">
+            {{ candidate.value.linkedin }} </a> </td>
+        <td>{{ candidate.value.ispresent }}</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</div>
+</body>
+</html>
