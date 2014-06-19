@@ -130,7 +130,7 @@ angular.module('SimpleCouch',[]).provider('couchConfig', {
             },
             get: function (id, cbsuccess, cberror) {
                 var config = {
-                    method: couchConfig.method,
+                    method: "GET",
                     url: encodeUri(getDbUri(), id)
                 };
                 return $http(extendJSONP(config)).success(function (data, status) {
