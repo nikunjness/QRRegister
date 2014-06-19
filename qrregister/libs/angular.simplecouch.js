@@ -95,7 +95,7 @@ angular.module('SimpleCouch',[]).provider('couchConfig', {
                 return couchConfig.method;
             },
             getDbUri: function() {
-                return couchConfig.getDbUri()
+                return getDbUri()
             }
         },
         db: {
