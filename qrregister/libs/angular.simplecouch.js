@@ -133,7 +133,7 @@ angular.module('SimpleCouch',[]).provider('couchConfig', {
                     method: "GET",
                     url: encodeUri(getDbUri(), id)
                 }).success(function (data, status) {
-                    cb(data, status);
+                    cbsuccess(data, status);
                 }).error(function (data, status) {
                         cberror(data, status)});
             },
