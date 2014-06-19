@@ -3,18 +3,21 @@
 <head>
     <title>QR Register</title>
     <script type="text/javascript" src="https://code.angularjs.org/1.2.17/angular.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/nikunjness/QRRegister/master/qrregister/libs/angular.simplecouch.js"></script>
+    <script type="text/javascript" src="https://raw.githack.com/nikunjness/QRRegister/master/qrregister/libs/angular.simplecouch.js"></script>
     <script type="text/javascript" src="https://cdn.rawgit.com/nikunjness/QRRegister/master/qrregister/libs/qrcode.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
     </head>
 <body ng-controller="registerController" ng-init="initApp()">
 <div  align="center" class="row">
     <img src="https://cdn.rawgit.com/nikunjness/QRRegister/master/qrregister/img/17800.jpg" height="150">
 </div>
-<div class="container" ng-hide="masterpanel">
+<div class="container" ng-show="registrationpanel">
     <div class="well">
         <div ng-show="errorWhileSubmit" class='alert alert-danger'>{{ errorWhileSubmit }}</div>
-        <div ng-show="successWhileSubmit" class='alert alert-success'>{{ successWhileSubmit }}</div>
+        <div ng-show="successWhileSubmit" class='alert alert-success'>
+
+            {{ successWhileSubmit }}</div>
         <form class="form-horizontal" role="form" ng-submit="save()">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Name</label>
@@ -45,37 +48,107 @@
                     <button type="submit" class="btn btn-default">Register</button>
                 </div>
             </div>
+
         </form>
-
-
+        <form class="form-horizontal" role="form" ng-submit="getTicket()">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Already registered? Get your ticket here</label>
+            <div class="col-sm-10">
+                <input type="email" ng-model="email" class="form-control" required>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" ng-click="getTicket(email)" class="btn btn-default">Get ticket</button>
+            </div>
+        </div>
+        </form>
     </div>
 </div>
 <div class="container" ng-show="masterpanel">
-    <div class="well">
-        <table class="table table-condensed table-hover" ng-show="all_docs">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Linkedin</th>
-                <th>isPresent</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="candidate in all_docs.rows">
-                <td>{{ candidate.value.name }}</td>
-                <td>{{ candidate.value.email }}</td>
-                <td>{{ candidate.value.contact }}</td>
-                <td> <a href="{{ candidate.value.linkedin }}" target="_blank">
-                    {{ candidate.value.linkedin }} </a> </td>
-                <td>{{ candidate.value.ispresent }}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+
+        <tabset>
+            <tab heading="{{ all_docs.rows.length }} Registered">
+                <table class="table table-condensed table-hover" ng-show="all_docs">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Linkedin</th>
+                        <th>isPresent</th>
+                        <th> QRCode </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="candidate in all_docs.rows">
+                        <td>{{ candidate.value.name }}</td>
+                        <td>{{ candidate.value.email }}</td>
+                        <td>{{ candidate.value.contact }}</td>
+                        <td> <a href="{{ candidate.value.linkedin }}" target="_blank">
+                            {{ candidate.value.linkedin }} </a> </td>
+                        <td>{{ candidate.value.ispresent }}</td>
+                        <td> <img src="{{ candidate.value.qrImage }}" width="98" height="98"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </tab>
+            <tab heading="{{ present_docs.rows.length }} Present">
+            <table class="table table-condensed table-hover" ng-show="all_docs">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Linkedin</th>
+                    <th>isPresent</th>
+                    <th> QRCode </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="candidate in present_docs.rows">
+                    <td>{{ candidate.name }}</td>
+                    <td>{{ candidate.email }}</td>
+                    <td>{{ candidate.contact }}</td>
+                    <td> <a href="{{ candidate.linkedin }}" target="_blank">
+                        {{ candidate.linkedin }} </a> </td>
+                    <td>{{ candidate.ispresent }}</td>
+                    <td> <img src="{{ candidate.qrImage }}" width="98" height="98"/></td>
+                </tr>
+                </tbody>
+            </table>
+            </tab>
+            <tab heading="{{ absent_docs.rows.length }} Absent">
+                <table class="table table-condensed table-hover" ng-show="all_docs">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Linkedin</th>
+                        <th>isPresent</th>
+                        <th> QRCode </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="candidate in absent_docs.rows">
+                        <td>{{ candidate.name }}</td>
+                        <td>{{ candidate.email }}</td>
+                        <td>{{ candidate.contact }}</td>
+                        <td> <a href="{{ candidate.linkedin }}" target="_blank">
+                            {{ candidate.linkedin }} </a> </td>
+                        <td>{{ candidate.ispresent }}</td>
+                        <td> <img src="{{ candidate.qrImage }}" width="98" height="98"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </tab>
+        </tabset>
+
+
 </div>
-<div id="ticket" class="container" hidden="true">
+<div id="qrcode" hidden="true"></div>
+<div id="ticket" class="container" ng-show="TicketFound">
+    <div class="well">
+    <a href="" onclick="printSelection(document.getElementById('ticket'))">print your ticket.</a>
     <table>
         <tr>
             <td colspan="2" align="center"><h4> Google I/O Extended Ahmedabad </h4></td>
@@ -84,8 +157,8 @@
             <td colspan="2" align="center"><h5>Entry Ticket</h5></td>
         </tr>
         <tr>
-            <td align="left"> {{ Attendee.name }} </td>
-            <td align="right"> <div id="qrcode"></div> </td>
+            <td align="left"> {{ ticket.name }} </td>
+            <td align="right"> <img src="{{ ticket.data }}" width="98" height="98"/> </td>
         </tr>
         <tr>
             <td colspan="2" align="left">
@@ -95,43 +168,105 @@
             </td>
         </tr>
     </table>
+    </div>
+</div>
+<div class="container" ng-show="markAttendace">
+    <div class="well">
+        <div ng-show="markSuccess" class='alert alert-success'>
+            {{ markSuccess }}
+        </div>
+        <div ng-show="markFailure" class='alert alert-danger'>
+            {{ markFailure }}
+        </div>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
-    var registerModule = angular.module('registerModule', ['SimpleCouch']);
+    function printSelection(node) {
+
+    var content = node.innerHTML
+    var pwin = window.open('', 'print_content', 'width=100,height=100');
+
+    pwin.document.open();
+    pwin.document.write('<html><body onload="window.print()">' + content + '</body></html>');
+    pwin.document.close();
+
+    setTimeout(function () {
+        pwin.close();
+    }, 5000);
+}
+
+var registerModule = angular.module('registerModule', ['SimpleCouch',  'ui.bootstrap']);
     var config = angular.module('Config', ['SimpleCouch']).config(function (couchConfigProvider,$httpProvider) {
         couchConfigProvider.setServer('http://127.0.0.1:5984');
-        couchConfigProvider.setDB('dbname');
 
     });
+
+
     function registerController($scope, $http, $location,  couchdb) {
         $scope.Attendee = {};
         $scope.couchdb = couchdb;
         $scope.variable = '';
         $scope.errorWhileSubmit = null;
         $scope.successWhileSubmit = null;
+        $scope.TicketFound = null
         $scope.couchdb.config.setServer('http://localhost:5984');
-        $scope.couchdb.config.setMethod('method GET/JSONP')
         $scope.couchdb.db.use('qrregister');
         $scope.all_docs = {}
+        $scope.present_docs = {}
+        $scope.absent_docs = {}
         $scope.masterpanel=false
+        $scope.registrationpanel = true
+        $scope.markAttendace = false
+        $scope.ticket = {}
+        $scope.markFailure =null
+        $scope.markSuccess =null
 
         var parameters = $location.search();
-        console.log(parameters)
         if (parameters.admin) {
             $scope.masterpanel = true;
-        } else {
+            $scope.markAttendace = false
+            $scope.registrationpanel = false
+        }
+        else if(parameters.mark){
+            $http({
+                method: "PUT",
+                url: $scope.couchdb.config.getDbUri()+"/_design/attendee/_update/mark/"+parameters.mark
+            }).success(function (data, status) {
+                $scope.markSuccess = "Attendance for "+parameters.mark+" has successfully marked"
+            }).error(function (data, status){
+                $scope.markFailure = "Attendance for "+parameters.mark+" has not marked. Please confirm the registration details"
+            });
+            $scope.markAttendace = true
             $scope.masterpanel = false;
+            $scope.registrationpanel = false
+        }
+        else {
+            $scope.markAttendace = false
+            $scope.masterpanel = false
+            $scope.registrationpanel = true
         }
         $scope.getalldocs = function()
         {
-            $http.get("http://localhost:5984/qrregister/_design/attendee/_view/all").success(function(data){
+            $http.get($scope.couchdb.config.getDbUri()+"/_design/attendee/_view/all").success(function(data){
                 console.log(data);
                 $scope.all_docs = data;
+                $scope.present_docs = {rows:[]};
+                $scope.absent_docs = {rows:[]};
+                for( i in $scope.all_docs.rows){
+                    var c = $scope.all_docs.rows[i].value;
+                    console.log(c);
+                     if(c.ispresent == "true"){
+                         $scope.present_docs.rows.push(c);
+                     }else{
+                         $scope.absent_docs.rows.push(c);
+                     }
+                }
+
             }).error(function(data){console.log("Error"+data);});
         }
 
-        var create_qrcode = function(text, typeNumber, errorCorrectLevel, table) {
+        $scope.create_qrcode = function(text, typeNumber, errorCorrectLevel, table) {
 
             var qr = qrcode(typeNumber || 6, errorCorrectLevel || 'M');
             qr.addData(text);
@@ -140,23 +275,58 @@
             //	return qr.createTableTag();
             return qr.createImgTag();
         };
+
+
+        $scope.getTicket = function(emailVal){
+            console.log(emailVal)
+            $scope.couchdb.doc.get(emailVal,
+                    function(data){
+                        console.log("Found");
+                        $scope.TicketFound = "Ticket successful" ;
+                        $scope.ticket.name = data.name
+                        $scope.ticket.data = data.qrImage
+                        window.setTimeout(function () {
+                            $scope.$apply(
+                                    function () {
+                                        $scope.TicketFound = null;
+                                    }
+                            )
+                        }, 20000);
+                    },
+                    function(data){
+                        console.log("Not Found");
+                        $scope.TicketNotFound = "It seems you have not registered yet. Do it quickly."
+                        $scope.ticket = {};
+                        window.setTimeout(function () {
+                            $scope.$apply(
+                                    function () {
+                                        $scope.TicketNotFound = null;
+
+                                    }
+                            )
+                        }, 20000);
+                    });
+
+        }
         $scope.save = function()
         {
             $scope.Attendee._id = $scope.Attendee.email
             $scope.Attendee.type='Attendee'
             $scope.Attendee.ispresent= "false"
+            $scope.qrURL= $scope.couchdb.config.getDbUri()+"app/index.html#?mark="+$scope.Attendee._id
+            $scope.qrURL = $scope.qrURL.trim()
+            $scope.QRDiv = document.getElementById('qrcode');
+            $scope.QRDiv.innerHTML = $scope.create_qrcode($scope.qrURL)
+            $scope.data = $scope.QRDiv.childNodes[0].src
+            $scope.Attendee.qrImage = $scope.data
+            $scope.data = $scope.data.replace('data:image/gif;base64,','');
             $scope.couchdb.doc.post($scope.Attendee,
                     function(data){
-                        $scope.successWhileSubmit = "Data Added Successfully";
-                        $scope.qrURL= "http://localhost:5984/qrregister/_design/attendee/_update/mark/"+$scope.Attendee._id
-                        var d = document.getElementById('qrcode');
-                        d.innerHTML = create_qrcode($scope.qrURL)
-                        var data = d.childNodes[0].src
-                        data.replace('data:image/gif;base64,','');
+                        $scope.successWhileSubmit = "Registration successful" ;
                         var email = {}
                         email.email = $scope.Attendee.email
-                        email.data = data
-                        email.printedTicket= document.getElementById('ticket').innerHTML.toString()
+                        email.name = $scope.Attendee.name
+                        email.data = $scope.data
                         $http({
                             method: 'PUT',
                             url: '/_sendmail/',
@@ -167,11 +337,15 @@
                         }).error(function (data) {
                             console.log(data);
                         });
+                        $scope.TicketFound = true
+                        $scope.ticket.name = $scope.Attendee.name
+                        $scope.ticket.data = $scope.Attendee.qrImage
                         $scope.Attendee = {};
                         window.setTimeout(function () {
                             $scope.$apply(
                                     function () {
                                         $scope.successWhileSubmit = null;
+                                        $scope.TicketFound = null
                                     }
                             )
                         }, 5000);
@@ -186,6 +360,7 @@
                             $scope.$apply(
                                     function () {
                                         $scope.errorWhileSubmit = null;
+                                        $scope.ticket = null;
                                     }
                             )
                         }, 5000);
@@ -243,6 +418,27 @@
                     'all': {
                         'map': (function (doc) {
                             if (doc.type == 'Attendee') {
+                                emit(doc.type, doc);
+                            }
+                        }).toString()
+                    },
+                    'present':{
+                        'map' : (function (doc) {
+                            if (doc.type == 'Attendee' && doc.ispresent == 'true') {
+                                emit(doc.type, doc);
+                            }
+                        }).toString()
+                    },
+                    'absent':{
+                        'map' : (function (doc) {
+                            if (doc.type == 'Attendee' && doc.ispresent == 'false') {
+                                emit(doc.type, doc);
+                            }
+                        }).toString()
+                    },
+                    'mark':{
+                        'map' : (function (doc) {
+                            if (doc.type == 'Attendee' && doc.ispresent == 'false') {
                                 emit(doc.type, doc);
                             }
                         }).toString()

@@ -57,7 +57,7 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         for key, value in post_data.iteritems():
             print "%s=%s" % (key, value)
 
-        me = "yourmail@hostname.com"        
+        me = "yourmail@hostname.com"     #your sender mail here
         you = post_data['email'][0]
 
         # Create message container - the correct MIME type is multipart/alternative.
@@ -97,7 +97,7 @@ class SimpleHTTPRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         s = smtplib.SMTP('emailhostname:port') #('smtp.gmail.com:587')
         s.set_debuglevel(1)
         s.starttls()
-        s.login('username','password')
+        s.login('username','password') # your credentials here
         # sendmail function takes 3 arguments: sender's address, recipient's address
         # and message to send - here it is sent as one string.
         s.sendmail(me, you, msg.as_string())
