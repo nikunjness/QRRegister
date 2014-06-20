@@ -7,18 +7,41 @@
     <script type="text/javascript" src="https://cdn.rawgit.com/nikunjness/QRRegister/master/qrregister/libs/qrcode.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        html,body{
+            height: 100%;
+            width: 100%;
+        }
+        footer {
+            position: absolute;
+            bottom: -120px;
+            width: 100%;
+            height: 45px;
+            background-color: #f5f5f5;
+        }
+    </style>
     </head>
 <body ng-controller="registerController" ng-init="initApp()">
-<div  align="center" class="row">
-    <img src="https://cdn.rawgit.com/nikunjness/QRRegister/master/qrregister/img/17800.jpg" height="150">
-</div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <a class="navbar-brand" href="#">The Ahmedabad Java Meetup</a>
+        </div>
+    </div>
+
+<br /><br /><br /><br />
 <div class="container" ng-show="registrationpanel">
+    <div align="center">
+        <h3>Google I/O Extended Ahmedabad 2014</h3>
+    </div>
     <div class="well">
         <div ng-show="errorWhileSubmit" class='alert alert-danger'>{{ errorWhileSubmit }}</div>
         <div ng-show="successWhileSubmit" class='alert alert-success'>
 
             {{ successWhileSubmit }}</div>
         <form class="form-horizontal" role="form" ng-submit="save()">
+            <legend>
+                Register
+            </legend>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">
@@ -40,7 +63,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Linkedin</label>
                 <div class="col-sm-10">
-                    <input type="url" class="form-control" ng-model="Attendee.linkedin" pattern="(?:http[s]?://|www|[linkedin]+)+\.[^\']+" placeholder="your linkedin profile url">
+                    <input type="url" class="form-control" ng-model="Attendee.linkedin" pattern="(?:http[s]?://|www|[linkedin]+)+\.[^\']+" placeholder="Your linkedin profile url">
                 </div>
             </div>
             <div class="form-group">
@@ -51,14 +74,19 @@
 
         </form>
         <form class="form-horizontal" role="form" ng-submit="getTicket()">
+            <legend>Already registered?</legend>
         <div class="form-group">
-            <label class="col-sm-2 control-label">Already registered? Get your ticket here</label>
+            <label class="col-sm-2 control-label">Get your ticket here</label>
             <div class="col-sm-10">
-                <input type="email" ng-model="email" class="form-control" required>
+                <input type="email" ng-model="email" class="form-control" required placeholder="Enter your registered email here">
             </div>
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" ng-click="getTicket(email)" class="btn btn-default">Get ticket</button>
             </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" ng-click="getTicket(email)" class="btn btn-default">Get ticket</button>
+                </div>
+            </div>
+
         </div>
         </form>
     </div>
@@ -180,6 +208,11 @@
         </div>
     </div>
 </div>
+<footer>
+    <div align="center" class="container">
+        <p class="muted credit" style="padding-top: 15px">Powered by <a href="http://www.ishisystems.com" target="_blank">Ishi Systems</a></p>
+    </div>
+</footer>
 </body>
 <script type="text/javascript">
     function printSelection(node) {
@@ -212,6 +245,7 @@ var registerModule = angular.module('registerModule', ['SimpleCouch',  'ui.boots
         $scope.TicketFound = null
         $scope.couchdb.config.setServer('http://localhost:5984');
         $scope.couchdb.db.use('qrregister');
+        $scope.email = null
         $scope.all_docs = {}
         $scope.present_docs = {}
         $scope.absent_docs = {}
@@ -289,6 +323,7 @@ var registerModule = angular.module('registerModule', ['SimpleCouch',  'ui.boots
                             $scope.$apply(
                                     function () {
                                         $scope.TicketFound = null;
+                                        $scope.email = null
                                     }
                             )
                         }, 20000);
@@ -418,27 +453,6 @@ var registerModule = angular.module('registerModule', ['SimpleCouch',  'ui.boots
                     'all': {
                         'map': (function (doc) {
                             if (doc.type == 'Attendee') {
-                                emit(doc.type, doc);
-                            }
-                        }).toString()
-                    },
-                    'present':{
-                        'map' : (function (doc) {
-                            if (doc.type == 'Attendee' && doc.ispresent == 'true') {
-                                emit(doc.type, doc);
-                            }
-                        }).toString()
-                    },
-                    'absent':{
-                        'map' : (function (doc) {
-                            if (doc.type == 'Attendee' && doc.ispresent == 'false') {
-                                emit(doc.type, doc);
-                            }
-                        }).toString()
-                    },
-                    'mark':{
-                        'map' : (function (doc) {
-                            if (doc.type == 'Attendee' && doc.ispresent == 'false') {
                                 emit(doc.type, doc);
                             }
                         }).toString()
